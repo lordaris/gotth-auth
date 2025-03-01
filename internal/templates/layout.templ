@@ -1,0 +1,56 @@
+package templates
+
+import "github.com/lordaris/gotth-boilerplate/internal/auth"
+
+templ Layout(title string) {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{ title }</title>
+  <link href="/static/css/output.css" rel="stylesheet" />
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4">
+    @Navbar()
+    <main class="py-6">
+      { children... }
+    </main>
+    @Footer()
+  </div>
+</body>
+
+</html>
+}
+
+templ Navbar() {
+<nav class="bg-white shadow-md rounded-lg my-4">
+  <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+    <a href="/" class="text-xl font-bold text-gray-800">GotTH</a>
+    <div class="flex space-x-4">
+      <a href="/" class="text-gray-600 hover:text-gray-800">Home</a>
+      <span id="auth-links" hx-swap-oob="true">
+        if auth.GetUserFromContext(ctx) != nil {
+        <a href="/profile" class="text-gray-600 hover:text-gray-800">Profile</a>
+        <a href="/logout" class="text-gray-600 hover:text-gray-800">Logout</a>
+        } else {
+        <a href="/login" class="text-gray-600 hover:text-gray-800">Login</a>
+        <a href="/register" class="text-gray-600 hover:text-gray-800">Sign up</a>
+        }
+      </span>
+    </div>
+  </div>
+</nav>
+}
+
+templ Footer() {
+<footer class="bg-white shadow-md rounded-lg mt-8 py-4">
+  <div class="container mx-auto px-6">
+    <p class="text-center text-gray-600">© 2025 GotTH Boilerplate.</p>
+  </div>
+</footer>
+}
